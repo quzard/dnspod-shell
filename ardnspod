@@ -98,29 +98,34 @@ arLanIp4() {
 # Get IPv4 by ip route or network
 
 arWanIp4() {
-
     local hostIp
-    local lanIps=$(arLanIp4)
 
-    case $(uname) in
-        'Linux')
-            hostIp=$(ip -o -4 route get 100.64.0.1 | grep -oE 'src [0-9\.]+' | awk '{print $2}' | grep -Ev "$lanIps")
-        ;;
-        Darwin|FreeBSD)
-            hostIp=$(ifconfig | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}' | grep -Ev "$lanIps")
-        ;;
-    esac
-
-    if [ -z "$hostIp" ]; then
-        return 2
-    fi
-
-    if [ -z "$(echo $hostIp | grep -E '^[0-9\.]+$')" ]; then
-        arLog "> arWanIp4 - Invalid ip address"
-        return 1
-    fi
+    hostIp=$(curl -s whatismyip.akamai.com)
 
     echo $hostIp
+
+    # local hostIp
+    # local lanIps=$(arLanIp4)
+
+    # case $(uname) in
+    #     'Linux')
+    #         hostIp=$(ip -o -4 route get 100.64.0.1 | grep -oE 'src [0-9\.]+' | awk '{print $2}' | grep -Ev "$lanIps")
+    #     ;;
+    #     Darwin|FreeBSD)
+    #         hostIp=$(ifconfig | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}' | grep -Ev "$lanIps")
+    #     ;;
+    # esac
+
+    # if [ -z "$hostIp" ]; then
+    #     return 2
+    # fi
+
+    # if [ -z "$(echo $hostIp | grep -E '^[0-9\.]+$')" ]; then
+    #     arLog "> arWanIp4 - Invalid ip address"
+    #     return 1
+    # fi
+
+    # echo $hostIp
 
 }
 
