@@ -1,11 +1,12 @@
 #!/bin/sh
-#
-
 # Import ardnspod functions
-. /your_real_path/ardnspod
+. /etc/profile
+
+cur_dir=$(dirname "$(readlink -f "$0")")
+. ${cur_dir}/ardnspod
 
 # Combine your token ID and token together as follows
-arToken="12345,7676f344eaeaea9074c123451234512d"
+arToken="$DDNSToken"
 
 # Web endpoint to be used for querying the public IPv6 address
 # Set this to override the default url provided by ardnspod
@@ -19,7 +20,7 @@ arToken="12345,7676f344eaeaea9074c123451234512d"
 # you can have multiple arDdnsCheck blocks
 
 # IPv4:
-arDdnsCheck "test.org" "subdomain"
+arDdnsCheck "$DDNSURL" "$DDNSDomain"
 
 # IPv6:
-arDdnsCheck "test.org" "subdomain6" 6
+#arDdnsCheck "test.org" "subdomain6" 6
